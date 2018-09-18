@@ -13,11 +13,12 @@ NavBar::begin([
 ]);
 $items = [];
 $items[] = ['label' => 'Home', 'url' => ['/site/index']];
+$items[] = ['label' => 'Users', 'url' => ['/user/index']];
 if (\Yii::$app->user->isGuest) {
     $items[] = ['label' => 'Register', 'url' => ['/rbac/user/register']];
     $items[] = ['label' => 'Login', 'url' => ['/rbac/user/login']];
 } else {
-    $items[] = ['label' => 'Transfer', 'url' => ['/rbac/user/transfer']];
+    $items[] = ['label' => 'Transfer', 'url' => ['/user/transfer']];
     $items[] = (
         '<li>'
         . Html::beginForm(['/rbac/user/logout'], 'post')

@@ -1,14 +1,62 @@
 <?php
 namespace app\models\user;
 
-use yii\db\ActiveRecord;
-
-class User extends ActiveRecord implements \yii\web\IdentityInterface
+/**
+ * This is the model class for table "user".
+ *
+ * @property int $id
+ * @property string $username
+ * @property string $access_token
+ * @property string $auth_key
+ * @property string $balance
+ */
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $authKey;
-    public $accessToken;
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'user';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['username', 'access_token', 'auth_key'], 'required'],
+            [['balance'], 'number'],
+            [['username'], 'string', 'max' => 64],
+            [['access_token', 'auth_key'], 'string', 'max' => 255],
+            [['username'], 'unique'],
+            [['access_token'], 'unique'],
+            [['auth_key'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => \Yii::t('app', 'ID'),
+            'username' => \Yii::t('app', 'Username'),
+            'access_token' => \Yii::t('app', 'Access Token'),
+            'auth_key' =>\Yii::t('app', 'Balance'),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
+    }
 
     /**
      * {@inheritdoc}
@@ -50,7 +98,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     /**
@@ -58,6 +106,23 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        return $this->auth_key === $authKey;
     }
+
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = \Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Generates access token
+     */
+    public function generateAccessToken()
+    {
+        $this->access_token = \Yii::$app->security->generateRandomString();
+    }
+
 }

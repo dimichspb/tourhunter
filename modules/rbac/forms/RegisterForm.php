@@ -16,7 +16,6 @@ class RegisterForm extends Model
 {
     public $username;
 
-
     /**
      * @return array the validation rules.
      */
@@ -24,35 +23,7 @@ class RegisterForm extends Model
     {
         return [
             [['username',], 'required'],
+            [['username'], 'unique', 'targetClass' => User::class, 'targetAttribute' => 'username']
         ];
-    }
-
-    /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
-     */
-    public function register()
-    {
-        if (!$this->validate()) {
-            return false;
-        }
-
-        return Yii::$app->user->login($this->createUser(), 3600*24*30);
-    }
-
-    /**
-     * Creates User
-     *
-     * @return User|null
-     */
-    public function createUser()
-    {
-        $user = new User(['
-            username' => $this->username
-        ]);
-        if (!$user->save()) {
-            throw new \RuntimeException('Can not create user');
-        }
-        return $user;
     }
 }

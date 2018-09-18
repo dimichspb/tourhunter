@@ -67,7 +67,7 @@ class UserController extends Controller
         }
 
         $model = new RegisterForm();
-        if ($model->load($this->request->post()) && $model->register()) {
+        if ($model->load($this->request->post()) && $this->module->register($model)) {
             return $this->goBack();
         }
 
@@ -88,7 +88,7 @@ class UserController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load($this->request->post()) && $model->login()) {
+        if ($model->load($this->request->post()) && $this->module->login($model)) {
             return $this->goBack();
         }
 
