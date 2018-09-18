@@ -48,6 +48,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'site/index',
+                'users' => 'user/index',
+                'transfer' => 'user/transfer',
+                'register' => 'rbac/user/register',
+                'login' => 'rbac/user/login',
+                'logout' => 'rbac/user/logout'
             ],
         ],
     ],

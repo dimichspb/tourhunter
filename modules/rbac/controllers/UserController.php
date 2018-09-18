@@ -2,7 +2,8 @@
 
 namespace app\modules\rbac\controllers;
 
-use app\forms\LoginForm;
+use app\modules\rbac\forms\LoginForm;
+use app\modules\rbac\forms\RegisterForm;
 use app\modules\rbac\Module;
 use Yii;
 use yii\filters\AccessControl;
@@ -20,10 +21,10 @@ class UserController extends Controller
     protected $request;
     protected $user;
 
-    public function __construct($id, Module $module, Request $request, User $user, array $config = [])
+    public function __construct($id, Module $module, Request $request, array $config = [])
     {
         $this->request = $request;
-        $this->user = $user;
+        $this->user = Yii::$app->user;
 
         parent::__construct($id, $module, $config);
     }
@@ -53,6 +54,28 @@ class UserController extends Controller
             ],
         ];
     }
+
+    /**
+     * Register action.
+     *
+     * @return string
+     */
+    public function actionRegister()
+    {
+        if (!$this->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new RegisterForm();
+        if ($model->load($this->request->post()) && $model->register()) {
+            return $this->goBack();
+        }
+
+        return $this->render('register', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Login action.
      *
@@ -60,12 +83,12 @@ class UserController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (!$this->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load($this->request->post()) && $model->login()) {
             return $this->goBack();
         }
 
@@ -81,7 +104,7 @@ class UserController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        $this->user->logout();
 
         return $this->goHome();
     }

@@ -14,12 +14,13 @@ NavBar::begin([
 $items = [];
 $items[] = ['label' => 'Home', 'url' => ['/site/index']];
 if (\Yii::$app->user->isGuest) {
-    $items[] = ['label' => 'Login', 'url' => ['/site/login']];
+    $items[] = ['label' => 'Register', 'url' => ['/rbac/user/register']];
+    $items[] = ['label' => 'Login', 'url' => ['/rbac/user/login']];
 } else {
-    $items[] = ['label' => 'Transfer', 'url' => ['/user/transfer']];
+    $items[] = ['label' => 'Transfer', 'url' => ['/rbac/user/transfer']];
     $items[] = (
         '<li>'
-        . Html::beginForm(['/site/logout'], 'post')
+        . Html::beginForm(['/rbac/user/logout'], 'post')
         . Html::submitButton(
             'Logout (' . Yii::$app->user->identity->username . ')',
             ['class' => 'btn btn-link logout']
