@@ -51,6 +51,7 @@ $config = [
                 '/' => 'site/index',
                 'users' => 'user/index',
                 'transfer' => 'user/transfer',
+                'api/users' => 'api/user/index',
                 'register' => 'rbac/user/register',
                 'login' => 'rbac/user/login',
                 'logout' => 'rbac/user/logout'

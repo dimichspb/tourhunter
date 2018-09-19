@@ -8,7 +8,7 @@ namespace app\models\user;
  * @property string $username
  * @property string $access_token
  * @property string $auth_key
- * @property string $balance
+ * @property float $balance
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -125,4 +125,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $this->access_token = \Yii::$app->security->generateRandomString();
     }
 
+    public function increaseBalance($amount)
+    {
+        $this->balance = $this->balance + $amount;
+    }
+
+    public function decreaseBalance($amount)
+    {
+        $this->balance = $this->balance - $amount;
+    }
 }

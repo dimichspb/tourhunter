@@ -3,6 +3,7 @@
 namespace app\forms\user;
 
 use app\models\user\User;
+use app\validators\AmountValidator;
 use Yii;
 use yii\base\Model;
 
@@ -14,7 +15,10 @@ use yii\base\Model;
  */
 class TransferForm extends Model
 {
-    public $user_id;
+    const MAX_DEBT = 1000;
+
+    public $sender_id;
+    public $reciepient_id;
     public $amount;
 
     /**
@@ -23,9 +27,26 @@ class TransferForm extends Model
     public function rules()
     {
         return [
-            [['user_id', 'amount'], 'required'],
-            [['user_id'], 'integer'],
-            [['amount',], 'decimal'],
+            [['sender_id', 'reciepient_id', 'amount'], 'required'],
+            [['sender_id', 'reciepient_id',], 'integer'],
+            [['sender_id', 'reciepient_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
+            [['amount',], AmountValidator::class, 'min' => 0.01, 'max' => User::findOne($this->sender_id)->balance + self::MAX_DEBT],
         ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'sender_id' => 'Sender',
+            'reciepient_id' => 'Reciepient',
+            'amount' => 'Amount to transfer',
+        ];
+    }
+
+    public function clear()
+    {
+        $this->sender_id = null;
+        $this->reciepient_id = null;
+        $this->amount = null;
     }
 }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\forms\user\TransferForm;
 use app\models\user\SearchModel;
+use app\models\user\User;
 use app\services\UserService;
 use yii\base\Module;
 use yii\filters\AccessControl;
@@ -62,13 +63,22 @@ class UserController extends \yii\web\Controller
     {
         $transferForm = new TransferForm();
 
-        if ($transferForm->load($this->request->post()) && $transferForm->validate() &&
-            $this->service->transfer($this->user->getIdentity(), $transferForm)
-        ){
-            $this->goBack();
+        $transferForm->sender_id = $this->user->getId();
+
+        if ($transferForm->load($this->request->post()) && $transferForm->validate()) {
+            try {
+                $this->service->transfer($transferForm);
+                $this->session->addFlash('success', \Yii::t('app', 'Transfer completed'));
+            } catch (\Exception $exception) {
+                $this->session->addFlash('danger', \Yii::t('app', 'Transfer uncompleted!' . PHP_EOL . $exception->getMessage()));
+            }
+            $transferForm->clear();
         }
 
+        $user = User::findOne($this->user->getId());
+
         return $this->render('transfer', [
+            'user' => $user,
             'model' => $transferForm,
         ]);
     }

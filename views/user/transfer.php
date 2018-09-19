@@ -1,9 +1,33 @@
 <?php
-/* @var $this yii\web\View */
-?>
-<h1>user/transfer</h1>
 
-<p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
-</p>
+use yii\bootstrap\ActiveForm;
+use yii\widgets\DetailView;
+use yii\bootstrap\Html;
+
+/* @var $this yii\web\View */
+/* @var $user \app\models\user\User */
+/* @var $model \app\forms\user\TransferForm */
+
+?>
+<h1>Transfer</h1>
+
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <h4><?= \Yii::t('app', 'User details');?></h4>
+        <?= DetailView::widget([
+            'model' => $user,
+            'attributes' => [
+                'username',
+                'balance',
+            ],
+        ]); ?>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <h4><?= \Yii::t('app', 'Transfer form');?></h4>
+        <?= $this->render('_transfer-form', [
+            'model' => $model,
+        ]); ?>
+    </div>
+</div>
+
+
