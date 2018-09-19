@@ -30,7 +30,20 @@ class TransferForm extends Model
             [['sender_id', 'reciepient_id', 'amount'], 'required'],
             [['sender_id', 'reciepient_id',], 'integer'],
             [['sender_id', 'reciepient_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => 'id'],
-            [['amount',], AmountValidator::class, 'min' => 0.01, 'max' => User::findOne($this->sender_id)->balance + self::MAX_DEBT],
+            [
+                'reciepient_id',
+                'compare',
+                'compareAttribute' => 'sender_id',
+                'operator' => '!=',
+                'type' => 'number',
+                'message' => \Yii::t('app', 'It is not allowed to transfer money to yourself'),
+            ],
+            [
+                'amount',
+                AmountValidator::class,
+                'min' => 1,
+                'max' => User::findOne($this->sender_id)->balance + self::MAX_DEBT,
+            ],
         ];
     }
 
