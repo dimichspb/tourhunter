@@ -22,7 +22,7 @@ class UserController extends \yii\web\Controller
     {
         $this->request = $request;
         $this->session = $session;
-        $this->user = \Yii::$app->user;
+        $this->user = $module->user;
         $this->service = $service;
 
         parent::__construct($id, $module, $config);

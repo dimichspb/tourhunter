@@ -24,7 +24,7 @@ class UserController extends Controller
     public function __construct($id, Module $module, Request $request, array $config = [])
     {
         $this->request = $request;
-        $this->user = Yii::$app->user;
+        $this->user = $module->user;
 
         parent::__construct($id, $module, $config);
     }

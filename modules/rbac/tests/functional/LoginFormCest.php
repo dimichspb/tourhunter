@@ -1,32 +1,50 @@
 <?php
 
+namespace app\modules\rbac\tests\functional;
+
+use app\modules\rbac\models\User;
+
 class LoginFormCest
 {
+    /**
+     * @var User
+     */
+    protected $model;
     public function _before(\FunctionalTester $I)
     {
-        $I->amOnRoute('site/login');
+        $I->amOnRoute('rbac/user/login');
+        $this->model = new User();
+        $this->model->username = 'user';
+        $this->model->generateAuthKey();
+        $this->model->generateAccessToken();
+        $this->model->save();
+    }
+
+
+    public function _after()
+    {
+        User::deleteAll();
     }
 
     public function openLoginPage(\FunctionalTester $I)
     {
         $I->see('Login', 'h1');
-
     }
 
     // demonstrates `amLoggedInAs` method
     public function internalLoginById(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(100);
+        $I->amLoggedInAs($this->model->id);
         $I->amOnPage('/');
-        $I->see('Logout (admin)');
+        $I->see('Logout (' . $this->model->username . ')');
     }
 
     // demonstrates `amLoggedInAs` method
     public function internalLoginByInstance(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(\app\models\User::findByUsername('admin'));
+        $I->amLoggedInAs(User::findByUsername($this->model->username));
         $I->amOnPage('/');
-        $I->see('Logout (admin)');
+        $I->see('Logout (' . $this->model->username . ')');
     }
 
     public function loginWithEmptyCredentials(\FunctionalTester $I)
@@ -34,26 +52,23 @@ class LoginFormCest
         $I->submitForm('#login-form', []);
         $I->expectTo('see validations errors');
         $I->see('Username cannot be blank.');
-        $I->see('Password cannot be blank.');
     }
 
     public function loginWithWrongCredentials(\FunctionalTester $I)
     {
         $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'wrong',
+            'LoginForm[username]' => 'not_existing_username',
         ]);
         $I->expectTo('see validations errors');
-        $I->see('Incorrect username or password.');
+        $I->see('User not found');
     }
 
     public function loginSuccessfully(\FunctionalTester $I)
     {
         $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'admin',
+            'LoginForm[username]' => $this->model->username,
         ]);
-        $I->see('Logout (admin)');
+        $I->see('Logout (' . $this->model->username . ')');
         $I->dontSeeElement('form#login-form');              
     }
 }

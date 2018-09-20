@@ -2,7 +2,7 @@
 
 namespace app\modules\rbac;
 
-use app\models\user\User;
+use app\modules\rbac\models\User;
 use app\modules\rbac\forms\LoginForm;
 use app\modules\rbac\forms\RegisterForm;
 use yii\web\Application;

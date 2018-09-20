@@ -8,8 +8,10 @@ use yii\bootstrap\Html;
 /* @var $user \app\models\user\User */
 /* @var $model \app\forms\user\TransferForm */
 
+$this->title = Yii::t('app', 'Transfer');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Transfer</h1>
+<h1><?= Html::encode($this->title) ?></h1>
 
 <div class="row">
     <div class="col-xs-12 col-md-8">

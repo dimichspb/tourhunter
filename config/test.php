@@ -25,7 +25,7 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\user\User',
         ],
         'request' => [
             'cookieValidationKey' => 'test',
@@ -37,6 +37,14 @@ return [
             ],
             */
         ],
+    ],
+    'modules' => [
+        'api' => [
+            'class' => \app\modules\api\Module::class,
+        ],
+        'rbac' => [
+            'class' => \app\modules\rbac\Module::class,
+        ]
     ],
     'params' => $params,
 ];
