@@ -1,6 +1,6 @@
 <?php
 
-namespace app\tests\unit\models;
+namespace app\modules\api\tests\unit\models;
 
 use app\models\user\User;
 
@@ -71,38 +71,5 @@ class UserTest extends \Codeception\Test\Unit
     {
         $user = User::findByUsername($this->model->username);
         expect_not($user->validateAuthKey('not-existing'));
-    }
-
-    /**
-     * @depends testFindUserByIdSuccess
-     */
-    public function testDecreaseSuccess()
-    {
-        $before = $this->model->balance;
-        $this->model->decreaseBalance(100);
-        expect($this->model->save())->true();
-        expect($this->model->hasErrors())->false();
-
-        $user = User::findOne(['id' => $this->model->id]);
-        expect($user)->notNull();
-        expect($user)->isInstanceOf(User::class);
-
-        $after = $user->balance;
-        expect($before - $after)->equals(100);
-    }
-
-    public function testIncreaseSuccess()
-    {
-        $before = $this->model->balance;
-        $this->model->increaseBalance(100);
-        expect($this->model->save())->true();
-        expect($this->model->hasErrors())->false();
-
-        $user = User::findIdentity($this->model->id);
-        expect($user)->notNull();
-        expect($user)->isInstanceOf(User::class);
-
-        $after = $user->balance;
-        expect($after - $before)->equals(100);
     }
 }

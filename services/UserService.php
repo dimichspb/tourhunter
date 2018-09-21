@@ -15,9 +15,9 @@ class UserService
      */
     protected $connection;
 
-    public function __construct()
+    public function __construct(Connection $connection)
     {
-        $this->connection = \Yii::$app->db;
+        $this->connection = $connection;
     }
 
     public function transfer(TransferForm $form)
@@ -34,6 +34,7 @@ class UserService
         }
 
         $transaction = $this->connection->beginTransaction();
+
         try {
             $this->performTransfer($sender, $reciepient, $form->amount);
             $transaction->commit();

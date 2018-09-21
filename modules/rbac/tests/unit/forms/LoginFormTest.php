@@ -14,6 +14,4 @@ class LoginFormTest extends \Codeception\Test\Unit
         \Yii::$app->user->logout();
         User::deleteAll();
     }
-
-
 }

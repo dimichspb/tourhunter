@@ -41,8 +41,11 @@ class TransferForm extends Model
             [
                 'amount',
                 AmountValidator::class,
+                'when' => function($model) {
+                    return !is_null(User::findOne($model->sender_id));
+                },
                 'min' => 1,
-                'max' => User::findOne($this->sender_id)->balance + self::MAX_DEBT,
+                'max' => ($user = User::findOne($this->sender_id))? ($user->balance + self::MAX_DEBT): self::MAX_DEBT,
             ],
         ];
     }

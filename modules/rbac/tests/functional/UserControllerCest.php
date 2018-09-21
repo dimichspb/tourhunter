@@ -4,12 +4,13 @@ namespace app\modules\rbac\tests\functional;
 
 use app\modules\rbac\models\User;
 
-class LoginFormCest
+class UserControllerCest
 {
     /**
      * @var User
      */
     protected $model;
+
     public function _before(\FunctionalTester $I)
     {
         $I->amOnRoute('rbac/user/login');

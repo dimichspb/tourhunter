@@ -7,7 +7,10 @@ $config = [
     'id' => 'basic',
     'name' => 'TourHunter',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        \app\bootstrap\Bootstrap::class,
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

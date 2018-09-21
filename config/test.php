@@ -12,6 +12,10 @@ return [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'bootstrap' => [
+        'log',
+        \app\bootstrap\Bootstrap::class,
+    ],
     'language' => 'en-US',
     'components' => [
         'db' => $db,
