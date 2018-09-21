@@ -14,8 +14,8 @@ modules:
             configFile: 'config/test.php'
             cleanup: false
 include:
-- modules\api
-- modules\rbac
+- modules/api
+- modules/rbac
 
 # To enable code coverage:
 #coverage:

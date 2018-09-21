@@ -1,5 +1,5 @@
 actor: Tester
-namespace: modules\rbac
+namespace: modules\api
 paths:
   tests: tests
   log: tests/_output

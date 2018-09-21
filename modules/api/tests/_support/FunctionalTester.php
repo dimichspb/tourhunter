@@ -1,5 +1,5 @@
 <?php
-namespace modules\rbac;
+namespace modules\api;
 
 /**
  * Inherited Methods
