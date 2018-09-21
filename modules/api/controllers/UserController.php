@@ -12,8 +12,18 @@ use yii\web\Request;
  */
 class UserController extends \yii\rest\Controller
 {
+    /**
+     * @var Request
+     */
     protected $request;
 
+    /**
+     * UserController constructor.
+     * @param $id
+     * @param Module $module
+     * @param Request $request
+     * @param array $config
+     */
     public function __construct($id, Module $module, Request $request, array $config = [])
     {
         $this->request = $request;
@@ -21,6 +31,10 @@ class UserController extends \yii\rest\Controller
         parent::__construct($id, $module, $config);
     }
 
+    /**
+     * User index
+     * @return \yii\data\ActiveDataProvider
+     */
     public function actionIndex()
     {
         $searchModel = new SearchModel();

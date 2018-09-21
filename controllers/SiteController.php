@@ -9,8 +9,18 @@ use yii\web\Request;
 
 class SiteController extends Controller
 {
+    /**
+     * @var Request
+     */
     protected $request;
 
+    /**
+     * SiteController constructor.
+     * @param $id
+     * @param Module $module
+     * @param Request $request
+     * @param array $config
+     */
     public function __construct($id, Module $module, Request $request, array $config = [])
     {
         $this->request = $request;

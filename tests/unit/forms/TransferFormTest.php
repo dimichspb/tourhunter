@@ -12,6 +12,9 @@ class TransferFormTest extends Unit
      */
     protected $model;
 
+    /**
+     * Before tests
+     */
     public function _before()
     {
         $this->model = new User();
@@ -21,11 +24,17 @@ class TransferFormTest extends Unit
         $this->model->save();
     }
 
+    /**
+     * After tests
+     */
     public function _after()
     {
         User::deleteAll();
     }
 
+    /**
+     * Test validate sender_id success
+     */
     public function testValidateSenderIdSuccess()
     {
         $form = new TransferForm();
@@ -36,6 +45,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('sender_id'))->false();
     }
 
+    /**
+     * Test validate sender_id empty failed
+     */
     public function testValidateSenderIdEmptyFailed()
     {
         $form = new TransferForm();
@@ -46,6 +58,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('sender_id'))->true();
     }
 
+    /**
+     * Test validate sender_id not exists failed
+     */
     public function testValidateSenderIdNotExistFailed()
     {
         $form = new TransferForm();
@@ -56,6 +71,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('sender_id'))->true();
     }
 
+    /**
+     * Test validate sender_id string failed
+     */
     public function testValidateSenderIdStringFailed()
     {
         $form = new TransferForm();
@@ -66,6 +84,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('sender_id'))->true();
     }
 
+    /**
+     * Test validate reciepient id success
+     */
     public function testValidateReciepientIdSuccess()
     {
         $form = new TransferForm();
@@ -76,6 +97,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('reciepient_id'))->false();
     }
 
+    /**
+     * Test validate reciepient id empty failed
+     */
     public function testValidateReciepientIdEmptyFailed()
     {
         $form = new TransferForm();
@@ -86,6 +110,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('reciepient_id'))->true();
     }
 
+    /**
+     * Test validate reciepient id not exists failed
+     */
     public function testValidateReciepientIdNotExistFailed()
     {
         $form = new TransferForm();
@@ -96,6 +123,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('reciepient_id'))->true();
     }
 
+    /**
+     * Test validate reciepient id string failed
+     */
     public function testValidateReciepientIdStringFailed()
     {
         $form = new TransferForm();
@@ -106,6 +136,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('reciepient_id'))->true();
     }
 
+    /**
+     * Test amount success
+     */
     public function testAmountSuccess()
     {
         $form = new TransferForm();
@@ -117,6 +150,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('amount'))->false();
     }
 
+    /**
+     * Test amount too less failed
+     */
     public function testAmountTooLessFailed()
     {
         $form = new TransferForm();
@@ -128,6 +164,9 @@ class TransferFormTest extends Unit
         expect($form->hasErrors('amount'))->true();
     }
 
+    /**
+     * Test amount too much failed
+     */
     public function testAmountTooMuchFailed()
     {
         $form = new TransferForm();

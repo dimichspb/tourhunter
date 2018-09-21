@@ -9,9 +9,14 @@ class UserControllerCest
      * @var User
      */
     protected $model;
-    
+
+    /**
+     * Before tests
+     * @param \FunctionalTester $I
+     */
     public function _before(\FunctionalTester $I)
     {
+        \Yii::$app->user->logout();
         $this->model = new User();
         $this->model->username = 'user1';
         $this->model->generateAuthKey();
@@ -19,11 +24,20 @@ class UserControllerCest
         $this->model->save();
     }
 
+    /**
+     * After tests
+     * @param \FunctionalTester $I
+     */
     public function _after(\FunctionalTester $I)
     {
+        \Yii::$app->user->logout();
         User::deleteAll();
     }
 
+    /**
+     * Test index page
+     * @param \FunctionalTester $I
+     */
     public function openIndexPage(\FunctionalTester $I)
     {
         $I->amOnRoute('user/index');
@@ -33,6 +47,10 @@ class UserControllerCest
         $I->canSee($this->model->username, 'td');
     }
 
+    /**
+     * Test transfer page success
+     * @param \FunctionalTester $I
+     */
     public function openTransferPageSuccess(\FunctionalTester $I)
     {
         $I->amLoggedInAs($this->model);
@@ -45,9 +63,13 @@ class UserControllerCest
         $I->see('Transfer', 'button');
     }
 
+    /**
+     * Test transfer page failed
+     * @param \FunctionalTester $I
+     */
     public function openTransferPageFailed(\FunctionalTester $I)
     {
         $I->amOnRoute('user/transfer');
-        $I->seePageNotFound();
+        $I->dontSee('Transfer', 'h1');
     }
 }

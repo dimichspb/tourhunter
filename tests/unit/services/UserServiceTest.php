@@ -17,7 +17,10 @@ class UserServiceTest extends Unit
      * @var User
      */
     protected $reciepient;
-    
+
+    /**
+     * Before tests
+     */
     public function _before()
     {
         $this->sender = new User();
@@ -32,12 +35,22 @@ class UserServiceTest extends Unit
         $this->reciepient->generateAccessToken();
         $this->reciepient->save();
     }
-    
+
+    /**
+     * After tests
+     */
     public function _after()
     {
         User::deleteAll();
     }
 
+    /**
+     * Test transfer success
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @throws \yii\di\NotInstantiableException
+     */
     public function testTransferSuccess()
     {
         /** @var TransferForm $transferForm */
@@ -58,6 +71,13 @@ class UserServiceTest extends Unit
         expect($reciepient->balance)->equals($reciepientBalanceBefore + $amount);
     }
 
+    /**
+     * Create transfer form mock
+     * @param User $sender
+     * @param User $reciepient
+     * @param $amount
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     */
     protected function getTransferFormMock(User $sender, User $reciepient, $amount)
     {
         $mock = $this->getMockBuilder(TransferForm::class)->getMock();

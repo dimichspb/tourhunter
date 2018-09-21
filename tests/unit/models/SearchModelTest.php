@@ -12,6 +12,9 @@ class SearchModelTest extends Unit
      */
     protected $model;
 
+    /**
+     * Before tests
+     */
     public function _before()
     {
         $this->model = new User();
@@ -21,11 +24,17 @@ class SearchModelTest extends Unit
         $this->model->save();
     }
 
+    /**
+     * After tests
+     */
     public function _after()
     {
         User::deleteAll();
     }
 
+    /**
+     * Test validate id success
+     */
     public function testValidateIdSuccess()
     {
         $searchModel = new SearchModel();
@@ -35,6 +44,9 @@ class SearchModelTest extends Unit
         expect($searchModel->hasErrors('id'))->false();
     }
 
+    /**
+     * Test validate id failed
+     */
     public function testValidateIdFailed()
     {
         $searchModel = new SearchModel();
@@ -44,6 +56,9 @@ class SearchModelTest extends Unit
         expect($searchModel->hasErrors('id'))->true();
     }
 
+    /**
+     * Tests validate username success
+     */
     public function testValidateUsernameSuccess()
     {
         $searchModel = new SearchModel();
@@ -53,6 +68,9 @@ class SearchModelTest extends Unit
         expect($searchModel->hasErrors('username'))->false();
     }
 
+    /**
+     * Tests search username success
+     */
     public function testSearchUsernameSuccess()
     {
         $searchModel = new SearchModel();
@@ -68,6 +86,9 @@ class SearchModelTest extends Unit
         }
     }
 
+    /**
+     * Test search id success
+     */
     public function testSearchIdSuccess()
     {
         $searchModel = new SearchModel();
@@ -83,6 +104,9 @@ class SearchModelTest extends Unit
         }
     }
 
+    /**
+     * Test search access_token failed
+     */
     public function testSearchAccessTokenFailed()
     {
         $user2 = new User();
@@ -97,6 +121,9 @@ class SearchModelTest extends Unit
         expect($dataProvider->getCount())->equals(2);
     }
 
+    /**
+     * Test search auth_key failed
+     */
     public function testSearchAuthKeyFailed()
     {
         $user2 = new User();

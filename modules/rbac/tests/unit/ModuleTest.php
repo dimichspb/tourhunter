@@ -13,17 +13,25 @@ class ModuleTest extends Unit
      */
     protected $module;
 
+    /**
+     * Before tests
+     */
     public function _before()
     {
         $this->module = \Yii::$app->getModule('rbac');
     }
 
-
+    /**
+     * After tests
+     */
     public function _after()
     {
         User::deleteAll();
     }
 
+    /**
+     * Test create user success
+     */
     public function testCreateUserSuccess()
     {
         $user = $this->module->createUser('user');
@@ -34,6 +42,7 @@ class ModuleTest extends Unit
     }
 
     /**
+     * Test get user success
      * @depends testCreateUserSuccess
      */
     public function testGetUserSuccess()
@@ -49,6 +58,9 @@ class ModuleTest extends Unit
         expect($found->auth_key)->equals($user->auth_key);
     }
 
+    /**
+     * Test get user failed
+     */
     public function testGetUserFailed()
     {
         $user = $this->module->createUser('user');
@@ -58,6 +70,9 @@ class ModuleTest extends Unit
         expect($found)->null();
     }
 
+    /**
+     * Test login no user
+     */
     public function testLoginNoUser()
     {
         $model = new LoginForm([
@@ -68,6 +83,9 @@ class ModuleTest extends Unit
         expect_that(\Yii::$app->user->isGuest);
     }
 
+    /**
+     * Test login correct
+     */
     public function testLoginCorrect()
     {
         $user = $this->module->createUser('user');

@@ -50,6 +50,9 @@ class TransferForm extends Model
         ];
     }
 
+    /**
+     * @return array
+     */
     public function attributeLabels()
     {
         return [
@@ -59,6 +62,9 @@ class TransferForm extends Model
         ];
     }
 
+    /**
+     * Clear form
+     */
     public function clear()
     {
         $this->sender_id = null;

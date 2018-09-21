@@ -125,11 +125,19 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $this->access_token = \Yii::$app->security->generateRandomString();
     }
 
+    /**
+     * Increase balance
+     * @param $amount
+     */
     public function increaseBalance($amount)
     {
         $this->balance = $this->balance + $amount;
     }
 
+    /**
+     * Decrease balance
+     * @param $amount
+     */
     public function decreaseBalance($amount)
     {
         $this->balance = $this->balance - $amount;

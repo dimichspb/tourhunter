@@ -5,8 +5,14 @@ use app\modules\api\models\User;
 
 class UserControllerCest
 {
+    /**
+     * @var User
+     */
     protected $model;
-    
+
+    /**
+     * Before tests
+     */
     public function _before()
     {
         $this->model = new User();
@@ -15,12 +21,19 @@ class UserControllerCest
         $this->model->generateAuthKey();
         $this->model->save();
     }
-    
+
+    /**
+     * After tests
+     */
     public function _after()
     {
         User::deleteAll();
     }
-    
+
+    /**
+     * Test user index
+     * @param \FunctionalTester $I
+     */
     public function getUserIndex(\FunctionalTester $I)
     {
         $I->amOnRoute('/api/user/index');

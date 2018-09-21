@@ -18,13 +18,34 @@ use yii\web\User;
  */
 class UserController extends Controller
 {
+    /**
+     * @var Request
+     */
     protected $request;
+
+    /**
+     * @var User
+     */
     protected $user;
 
-    public function __construct($id, Module $module, Request $request, array $config = [])
+    /**
+     * @var Module
+     */
+    public $module;
+
+    /**
+     * UserController constructor.
+     * @param $id
+     * @param Module $module
+     * @param Request $request
+     * @param User $user
+     * @param array $config
+     */
+    public function __construct($id, Module $module, Request $request, User $user, array $config = [])
     {
         $this->request = $request;
-        $this->user = $module->user;
+        $this->module = $module;
+        $this->user = $user;
 
         parent::__construct($id, $module, $config);
     }

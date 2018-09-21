@@ -7,11 +7,27 @@ use app\modules\rbac\models\User;
 
 class LoginFormTest extends \Codeception\Test\Unit
 {
-    private $model;
-
-    protected function _after()
+    /**
+     * Test validate username success
+     */
+    public function testValidateUsernameSuccess()
     {
-        \Yii::$app->user->logout();
-        User::deleteAll();
+        $model = new LoginForm();
+        $model->username = 'user1';
+
+        expect($model->validate())->true();
+        expect($model->hasErrors('username'))->false();
+    }
+
+    /**
+     * Test validate username null failed
+     */
+    public function testValidateUsernameNullFailed()
+    {
+        $model = new LoginForm();
+        $model->username = null;
+
+        expect($model->validate())->false();
+        expect($model->hasErrors('username'))->true();
     }
 }

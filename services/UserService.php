@@ -15,11 +15,21 @@ class UserService
      */
     protected $connection;
 
+    /**
+     * UserService constructor.
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
+    /**
+     * Transfer money service
+     * @param TransferForm $form
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     */
     public function transfer(TransferForm $form)
     {
         $sender = User::findOne($form->sender_id);
@@ -47,6 +57,12 @@ class UserService
         }
     }
 
+    /**
+     * Increase and decrease user balances
+     * @param User $sender
+     * @param User $reciepient
+     * @param $amount
+     */
     protected function performTransfer(User $sender, User $reciepient, $amount)
     {
         $sender->decreaseBalance($amount);

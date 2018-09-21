@@ -70,6 +70,17 @@ http://tourhunter.localhost/api/users
 
 ## Tests
 
+1. Configure testing database connection
+```
+config\test_db.php
+```
+
+2. Apply migrations for testing database
+```
+php test migrate
+```
+
+3. Run tests
 ```
 codecept run
 ```

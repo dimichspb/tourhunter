@@ -14,6 +14,9 @@ use yii\base\Model;
  */
 class RegisterForm extends Model
 {
+    /**
+     * @var string
+     */
     public $username;
 
     /**

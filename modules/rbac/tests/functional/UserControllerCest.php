@@ -11,9 +11,13 @@ class UserControllerCest
      */
     protected $model;
 
+    /**
+     * Before tests
+     * @param \FunctionalTester $I
+     */
     public function _before(\FunctionalTester $I)
     {
-        $I->amOnRoute('rbac/user/login');
+        \Yii::$app->user->logout();
         $this->model = new User();
         $this->model->username = 'user';
         $this->model->generateAuthKey();
@@ -21,14 +25,19 @@ class UserControllerCest
         $this->model->save();
     }
 
-
+    /**
+     * After tests
+     */
     public function _after()
     {
+        \Yii::$app->user->logout();
+
         User::deleteAll();
     }
 
     public function openLoginPage(\FunctionalTester $I)
     {
+        $I->amOnRoute('rbac/user/login');
         $I->see('Login', 'h1');
     }
 
@@ -50,6 +59,7 @@ class UserControllerCest
 
     public function loginWithEmptyCredentials(\FunctionalTester $I)
     {
+        $I->amOnRoute('rbac/user/login');
         $I->submitForm('#login-form', []);
         $I->expectTo('see validations errors');
         $I->see('Username cannot be blank.');
@@ -57,6 +67,7 @@ class UserControllerCest
 
     public function loginWithWrongCredentials(\FunctionalTester $I)
     {
+        $I->amOnRoute('rbac/user/login');
         $I->submitForm('#login-form', [
             'LoginForm[username]' => 'not_existing_username',
         ]);
@@ -66,6 +77,7 @@ class UserControllerCest
 
     public function loginSuccessfully(\FunctionalTester $I)
     {
+        $I->amOnRoute('rbac/user/login');
         $I->submitForm('#login-form', [
             'LoginForm[username]' => $this->model->username,
         ]);

@@ -13,16 +13,31 @@ use yii\web\Session;
 
 class UserController extends \yii\web\Controller
 {
+    /**
+     * @var Request
+     */
     protected $request;
+
+    /**
+     * @var Session
+     */
     protected $session;
+
+    /**
+     * @var User
+     */
     protected $user;
+
+    /**
+     * @var UserService
+     */
     protected $service;
 
-    public function __construct($id, Module $module, Request $request, Session $session, UserService $service, array $config = [])
+    public function __construct($id, Module $module, Request $request, Session $session, UserService $service, \yii\web\User $user, array $config = [])
     {
         $this->request = $request;
         $this->session = $session;
-        $this->user = $module->user;
+        $this->user = $user;
         $this->service = $service;
 
         parent::__construct($id, $module, $config);
@@ -48,6 +63,10 @@ class UserController extends \yii\web\Controller
         ];
     }
 
+    /**
+     * User index
+     * @return string
+     */
     public function actionIndex()
     {
         $searchModel = new SearchModel();
@@ -59,6 +78,11 @@ class UserController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * Transfer money
+     * @return string
+     * @throws \Throwable
+     */
     public function actionTransfer()
     {
         $transferForm = new TransferForm();
